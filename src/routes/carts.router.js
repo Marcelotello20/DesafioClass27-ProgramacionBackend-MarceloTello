@@ -1,16 +1,15 @@
 import express from "express";
 import __dirname from '../utils/utils.js';
-// import CartManager from "../dao/CartManagerFS.js";
-import CartManagerDB from "../dao/CartManagerDB.js"
+import CartController from "../controllers/cartController.js"
 
 const router = express.Router();
 const cartsRouter = router;
-// const CM  = new CartManager(`${__dirname}/Carts.json`);
-const CM = new CartManagerDB();
+
+const CC = new CartController();
 
 router.post("/", async (req, res) => {
     try {
-        const newCart = await CM.createCart();
+        const newCart = await CC.createCart();
         res.status(200).json(newCart);
     } catch (error) {
         console.error("Error al crear el carrito");
@@ -20,7 +19,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const cart = await CM.getCarts();
+        const cart = await CC.getCarts();
 
         if (!cart) {
             console.error("No se pudo encontrar el carrito con ID:", cartId);
@@ -37,13 +36,10 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:cid", async (req, res) => {
-    //FS
-    // const cartId = +req.params.cid;
-    //DB
     const cartId = req.params.cid;
 
     try {
-        const cart = await CM.getCartById(cartId);
+        const cart = await CC.getCartById(cartId);
 
         if (!cart) {
             console.error("No se pudo encontrar el carrito con ID:", cartId);
@@ -60,11 +56,6 @@ router.get("/:cid", async (req, res) => {
 });
 
 router.post("/:cid/product/:pid", async (req, res) => {
-    //FS
-    // const cartId = +req.params.cid;
-    // const productId = +req.params.pid;
-
-    //DB
     const cartId = req.params.cid;
     const productId = req.params.pid;
 
@@ -72,7 +63,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
 
     
     try {
-        await CM.addProductToCart(cartId, productId, quantity);
+        await CC.addProductToCart(cartId, productId, quantity);
         res.status(200).send("Producto agregado al carrito");
     } catch (error) {
         console.error("Error al agregar producto al carrito");
@@ -81,12 +72,11 @@ router.post("/:cid/product/:pid", async (req, res) => {
 });
 
 router.delete('/:cid/product/:pid', async (req, res) => {
-    //DB
     const cartId = req.params.cid;
     const productId = req.params.pid;
     
     try {
-        await CM.removeProductFromCart(cartId, productId);
+        await CC.removeProductFromCart(cartId, productId);
         res.send('Producto eliminado del carrito correctamente');
     } catch (error) {
         console.error("Error al eliminar el producto del carrito:");
@@ -95,14 +85,13 @@ router.delete('/:cid/product/:pid', async (req, res) => {
 });
 
 router.put('/:cid/products/:pid', async (req, res) => {
-    //DB
     const cartId = req.params.cid;
     const productId = req.params.pid;
 
     const { quantity } = req.body;
 
     try {
-        await CM.updateProductQuantity(cartId, productId, quantity);
+        await CC.updateProductQuantity(cartId, productId, quantity);
         res.send('Cantidad de producto actualizada correctamente');
     } catch (error) {
         console.error("Error al actualizar la cantidad del producto:");
@@ -114,7 +103,7 @@ router.put('/:cid', async (req, res) => {
     const cartId = req.params.cid;
     const { products } = req.body;
     try {
-        await CM.updateCart(cartId, products);
+        await CC.updateCart(cartId, products);
         res.send('Carrito actualizado correctamente');
     } catch (error) {
         console.error("Error al actualizar la cantidad del producto:");
@@ -127,7 +116,7 @@ router.delete('/:cid', async (req, res) => {
     const cartId = req.params.cid;
 
     try {
-        await CM.removeAllProductsFromCart(cartId);
+        await CC.removeAllProductsFromCart(cartId);
         res.send('Productos eliminados del carrito correctamente');
     } catch (error) {
         console.error("Error al eliminar los productos del carrito:");

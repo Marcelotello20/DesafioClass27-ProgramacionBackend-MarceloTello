@@ -1,14 +1,12 @@
  import express from 'express';
 import __dirname from '../utils/utils.js';
-// import ProductManagerFS from '../dao/ProductManagerFS.js';
-import ProductManagerDB from '../dao/ProductManagerDB.js';
-import productModel from '../dao/models/productModel.js';
+import ProductController from '../controllers/productController.js';
+import productModel from '../models/productModel.js';
 
 const router = express.Router();
 const productsRouter = router;
 
-//const PM = new ProductManager(`${__dirname}/Productos.json`);
-const PM = new ProductManagerDB();
+const PC = new ProductController();
 
 router.get('/', async (req, res) => {
     let { page = 1, limit = 10, sort, query } = req.query;
@@ -46,7 +44,7 @@ router.get('/:id', async (req, res) => {
     const productId = req.params.id;
 
     try{
-        let product = await PM.getProductById(productId);
+        let product = await PC.getProductById(productId);
 
         if (!product) {
             console.error("No se encontró el producto solicitado");
@@ -70,7 +68,7 @@ router.post('/', async (req, res) => {
     const product = req.body;
 
     try {
-        await PM.addProduct(product);
+        await PC.addProduct(product);
         res.status(201).send('Producto creado correctamente');
     } catch (error) {
         console.error("Error al crear el producto");
@@ -88,7 +86,7 @@ router.put('/:id', async (req, res) => {
     const update = req.body;
 
     try {
-        await PM.updateProduct(productId, update);
+        await PC.updateProduct(productId, update);
         res.send('Producto actualizado correctamente');
     } catch (error) {
         console.error("Error al actualizar el producto");
@@ -103,7 +101,7 @@ router.delete('/:id', async (req, res) => {
     const productId = req.params.id;
     
     try {
-        await PM.deleteProduct(productId);
+        await PC.deleteProduct(productId);
         res.send('Producto eliminado correctamente');
     } catch (error) {
         console.error("Error al eliminar el producto:");
@@ -120,7 +118,7 @@ router.post('/deleteproduct', async (req, res) => {
     const productId = req.body.productId;
 
     try {
-        await PM.deleteProduct(productId);
+        await PC.deleteProduct(productId);
         res.send('Producto eliminado correctamente');
     } catch (error) {
         console.error("Error al eliminar el producto:");

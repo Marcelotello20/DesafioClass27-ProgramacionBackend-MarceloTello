@@ -1,15 +1,15 @@
 import express from "express";
 
-import MessageManager from "../dao/MessageManager.js";
+import MessageController from "../controllers/messageController.js";
 
 const router = express.Router();
 const chatRouter = router;
 
-const MM = new MessageManager();
+const MC = new MessageController();
 
 router.get("/messages", async (req, res) => {
     try {
-        const messages = await MM.getAllMessages();
+        const messages = await MC.getAllMessages();
         res.status(200).json(messages);
     } catch (error) {
         console.error("Error al obtener los mensajes:", error);
@@ -26,10 +26,10 @@ router.post("/message", async (req, res) => {
 
     try {
         // Aquí deberías guardar el mensaje en MongoDB
-        const newMessage = await MM.addMessage(user, message);
+        const newMessage = await MC.addMessage(user, message);
         
         // Emitir el mensaje a todos los clientes
-        io.emit("messageLogs", await MM.getAllMessages());
+        io.emit("messageLogs", await MC.getAllMessages());
 
         res.status(201).json(newMessage);
     } catch (error) {
