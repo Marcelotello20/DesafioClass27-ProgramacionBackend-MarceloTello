@@ -6,17 +6,17 @@ import chatRouter from './routes/chat.router.js';
 import viewsRouter from './routes/views.router.js';
 import usersRouter from './routes/users.router.js';
 import __dirname from './utils/utils.js';
+import initializePassport from './config/passport.config.js';
+import config from './dotenv.config.js'
+import websocket from './websocket.js';
 
 import {Server} from 'socket.io';
-import websocket from './websocket.js';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-
 import passport from 'passport';
-import initializePassport from './config/passport.config.js';
-import config from './config/dotenv.config.js'
+
 
 const app = express();
 
@@ -73,3 +73,4 @@ const httpServer = app.listen(PORT,() => {
 const io = new Server(httpServer);
 
 websocket(io);
+console.log(config);

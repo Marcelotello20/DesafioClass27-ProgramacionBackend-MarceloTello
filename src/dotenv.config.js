@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import { Command } from 'commander';
 
 const program = new Command();
@@ -14,7 +14,7 @@ dotenv.config({
 
 export default {
     port:process.env.PORT,
-    mongoUrl:process.env.MONGO_URL,
-    adminName : process.env.ADMIN_NAME,
-    adminPassword : process.env.ADMIN_PASSWORD
+    mongo_url:process.env.MONGO_URL,
+    admin_name : process.env.ADMIN_NAME,
+    admin_pass : process.env.ADMIN_PASS
 }

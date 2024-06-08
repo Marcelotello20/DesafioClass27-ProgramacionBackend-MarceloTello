@@ -1,5 +1,5 @@
 {
-  "name": "desarrollobackend-desafio19-marcelotello",
+  "name": "desarrollobackend-desafio27-marcelotello",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marcelo Tello",
   "license": "ISC",
   "description": "",
   "type": "module",

@@ -2,17 +2,16 @@ import express from 'express';
 import __dirname from '../utils/utils.js';
 
 // import ProductManagerFS from '../dao/ProductManagerFS.js';
-import ProductManagerDB from '../dao/ProductManagerDB.js';
-import productModel from '../dao/models/productModel.js';
-import CartManagerDB from '../dao/CartManagerDB.js'
+import ProductController from '../controllers/productController.js';
+import productModel from '../models/productModel.js';
+import CartController from '../controllers/cartController.js';
 
 import {auth, logged} from '../middlewares/auth.js'
 
 const router = express.Router();
 
-// const PM = new ProductManagerFS(`${__dirname}/../Productos.json`);
-const PM = new ProductManagerDB();
-const CM = new CartManagerDB();
+const PC = new ProductController();
+const CC = new CartController();
 
 router.get('/', auth, async (req, res) => {
     let { page = 1, limit = 10, sortField, sortOrder, query } = req.query;
@@ -73,7 +72,7 @@ router.get("/profile", auth, (req, res) => {
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
-        const products = await PM.getProducts();
+        const products = await PC.getProducts();
         res.render('realtimeproducts', {
             products,
             style: 'index.css'
@@ -106,7 +105,7 @@ router.get('/cart/:cid', async (req,res) => {
     let cartId = req.params.cid;
 
     try{
-        let cart = await CM.getCartById(cartId)
+        let cart = await CC.getCartById(cartId)
         res.render('cart', {
             cart,
             style: '../../css/index.css'
