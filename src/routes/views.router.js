@@ -3,7 +3,7 @@ import __dirname from '../utils/utils.js';
 
 // import ProductManagerFS from '../dao/ProductManagerFS.js';
 import ProductController from '../controllers/productController.js';
-import productModel from '../models/productModel.js';
+import productModel from '../dao/models/productModel.js';
 import CartController from '../controllers/cartController.js';
 
 import {auth, logged} from '../middlewares/auth.js'

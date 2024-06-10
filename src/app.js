@@ -7,7 +7,7 @@ import viewsRouter from './routes/views.router.js';
 import usersRouter from './routes/users.router.js';
 import __dirname from './utils/utils.js';
 import initializePassport from './config/passport.config.js';
-import config from './dotenv.config.js'
+import config from './config.js'
 import websocket from './websocket.js';
 
 import {Server} from 'socket.io';
@@ -21,8 +21,8 @@ import passport from 'passport';
 const app = express();
 
 //MongoDB connect
-const uri = "mongodb+srv://marcelotellocortez:wpmoneDQ4aKUwrPI@codercluster.ngzogsp.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=CoderCluster";
-mongoose.connect(uri);
+
+mongoose.connect(config.mongo_url);
 mongoose.connection.on('connected', () => {
     console.log('Conectado a MongoDB');
 });
@@ -45,7 +45,7 @@ app.use(cookieParser());
 app.use(session(
     {
     store:MongoStore.create({
-        mongoUrl:uri,
+        mongoUrl:config.mongo_url,
         mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
         ttl:3000,
     }),
@@ -65,7 +65,7 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/sessions', usersRouter);
 
-const PORT = 8080;
+const PORT = config.port || 8080;
 const httpServer = app.listen(PORT,() => { 
     console.log("Escuchando por el puerto 8080");
 });

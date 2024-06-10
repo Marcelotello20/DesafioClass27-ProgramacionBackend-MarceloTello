@@ -1,7 +1,7 @@
  import express from 'express';
 import __dirname from '../utils/utils.js';
 import ProductController from '../controllers/productController.js';
-import productModel from '../models/productModel.js';
+import productModel from '../dao/models/productModel.js';
 
 const router = express.Router();
 const productsRouter = router;

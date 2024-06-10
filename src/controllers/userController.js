@@ -1,4 +1,4 @@
-import UserService from "../services/userService.js";
+import UserService from "../dao/services/userService.js";
 
 export default class UserController {
 

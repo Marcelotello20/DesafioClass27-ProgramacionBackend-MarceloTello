@@ -1,17 +1,13 @@
-
 import __dirname from "./utils/utils.js";
-//import ProductManagerFS from "./dao/ProductManagerFS.js";
-//const PM = new ProductManagerFS(`${__dirname}/../Productos.json`);
+import ProductController from "./controllers/productController.js";
+import MessageController from "./controllers/messageController.js";
 
-import ProductManagerDB from "./dao/ProductManagerDB.js";
-import MessageManager from "./dao/MessageManager.js";
-
-const PM = new ProductManagerDB();
-const MM = new MessageManager();
+const PC = new ProductController();
+const MC = new MessageController();
 
 //Funcion para Actualizacion de Productos en tiempo real
 const socketUpdatedProducts = async (socket) => {
-    const products = await PM.getProducts();
+    const products = await PC.getProducts();
     socket.emit('productList',products);
     console.log("Productos Actualizados en tiempo real")
 }
@@ -33,8 +29,8 @@ export default (io) => {
 
         socket.on('messageChat', async (data) => {
             try {
-                const newMessage = await MM.addMessage(data.user, data.message);
-                const messages = await MM.getAllMessages();
+                const newMessage = await MC.addMessage(data.user, data.message);
+                const messages = await MC.getAllMessages();
                 io.emit('messageLogs', messages);
             } catch (error) {
                 console.error("Error al guardar el mensaje");

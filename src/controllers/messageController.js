@@ -1,4 +1,4 @@
-import MessageService from '../services/messageService.js';
+import MessageService from '../dao/services/messageService.js';
 
 export default class MessageController {
 
